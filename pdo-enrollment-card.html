@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BMET LMS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --theme-gradient: linear-gradient(310deg, #2152ff 0%, #21d4fd 100%);
+      --theme-blue: #2152ff;
+      --border-color: #d2d6da;
+      --shadow-focus: 0 0 0 3px rgba(142, 199, 255, 0.45);
+      --text-muted: #67748e;
+      --text-dark: #344767;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'Open Sans', 'Lato', sans-serif;
+      font-size: 14px;
+      color: var(--text-dark);
+      background: #fff;
+    }
+
+    a { text-decoration: none; color: inherit; }
+
+    /* ── NAVBAR ── */
+    .navbar-wrapper {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    nav.top-menu {
+      background: rgba(255,255,255,0.88);
+      backdrop-filter: saturate(180%) blur(20px);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      box-shadow: 0 2px 12px 0 rgba(0,0,0,0.1);
+      padding: 10px 0;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .navbar-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 17px;
+      color: var(--text-dark);
+      white-space: nowrap;
+    }
+
+    .navbar-brand img {
+      width: 42px;
+      height: 42px;
+      object-fit: contain;
+    }
+
+    .navbar-brand strong {
+      background: var(--theme-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .search-form {
+      display: flex;
+      align-items: center;
+      background: #f8f9fa;
+      border: 1px solid var(--border-color);
+      border-radius: 0.5rem;
+      padding: 6px 14px;
+      gap: 8px;
+      flex: 0 1 260px;
+    }
+
+    .search-form i { color: var(--text-muted); font-size: 13px; }
+
+    .search-form input {
+      border: none;
+      background: transparent;
+      outline: none;
+      font-size: 13px;
+      color: var(--text-dark);
+      width: 100%;
+    }
+
+    .search-form input::placeholder { color: #adb5bd; }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .dropdown { position: relative; }
+
+    .dropdown-toggle {
+      background: transparent;
+      border: 1px solid var(--border-color);
+      border-radius: 0.5rem;
+      padding: 7px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-dark);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: inherit;
+    }
+
+    .dropdown-toggle:hover { border-color: #adb5bd; }
+
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      background: #fff;
+      border: 1px solid var(--border-color);
+      border-radius: 0.5rem;
+      min-width: 200px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+      z-index: 999;
+      overflow: hidden;
+    }
+
+    .dropdown:hover .dropdown-menu { display: block; }
+
+    .dropdown-menu a {
+      display: block;
+      padding: 9px 16px;
+      font-size: 13px;
+      color: var(--text-dark);
+      transition: background 0.15s;
+    }
+
+    .dropdown-menu a:hover { background: #f8f9fa; }
+    .dropdown-menu a.active { font-weight: 600; color: var(--theme-blue); }
+
+    .lang-select {
+      border: 1px solid var(--border-color);
+      border-radius: 0.5rem;
+      padding: 7px 10px;
+      font-size: 13px;
+      color: var(--text-dark);
+      background: #fff;
+      cursor: pointer;
+      font-family: inherit;
+      outline: none;
+    }
+
+    .btn-login-nav {
+      background: var(--theme-gradient);
+      color: #fff;
+      border: none;
+      border-radius: 0.5rem;
+      padding: 8px 20px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      letter-spacing: 0.5px;
+      font-family: inherit;
+      box-shadow: 0 3px 12px rgba(33, 82, 255, 0.35);
+      transition: box-shadow 0.2s, transform 0.1s;
+    }
+
+    .btn-login-nav:hover {
+      box-shadow: 0 5px 18px rgba(33, 82, 255, 0.45);
+      transform: translateY(-1px);
+    }
+
+    /* ── PAGE BODY ── */
+    .page-body {
+      min-height: calc(100vh - 64px - 160px);
+      padding: 40px 20px 60px;
+    }
+
+    .page-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      gap: 0;
+    }
+
+    .sidebar-placeholder {
+      width: 260px;
+      flex-shrink: 0;
+    }
+
+    .content-card {
+      flex: 1;
+      background: #fff;
+      border: 1px solid #e9ecef;
+      border-radius: 0.75rem;
+      padding: 32px 36px 36px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      max-width: 680px;
+    }
+
+    .page-instruction {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 28px;
+      line-height: 1.5;
+    }
+
+    .form-group { margin-bottom: 22px; }
+
+    .form-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 6px;
+    }
+
+    .form-label .required { color: #ea0606; }
+
+    .form-control {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid var(--border-color);
+      border-radius: 0.5rem;
+      font-size: 14px;
+      font-family: inherit;
+      color: var(--text-dark);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      background: #fff;
+    }
+
+    .form-control:focus {
+      border-color: #8ec7ff;
+      box-shadow: var(--shadow-focus);
+    }
+
+    /* Captcha row */
+    .captcha-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .captcha-img-box {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .captcha-image {
+      width: 120px;
+      height: 44px;
+      border: 1px solid var(--border-color);
+      border-radius: 0.4rem;
+      background: #f0f4ff;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .captcha-refresh {
+      width: 40px;
+      height: 40px;
+      border: none;
+      border-radius: 0.4rem;
+      background: #2dce89;
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+      flex-shrink: 0;
+    }
+
+    .captcha-refresh:hover { background: #26b576; }
+
+    .captcha-input {
+      flex: 1;
+      min-width: 160px;
+    }
+
+    .btn-search {
+      width: 100%;
+      padding: 13px;
+      background: var(--theme-gradient);
+      color: #fff;
+      border: none;
+      border-radius: 0.5rem;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      cursor: pointer;
+      font-family: inherit;
+      box-shadow: 0 4px 16px rgba(33, 82, 255, 0.35);
+      transition: box-shadow 0.2s, transform 0.1s;
+      margin-top: 8px;
+    }
+
+    .btn-search:hover {
+      box-shadow: 0 6px 22px rgba(33, 82, 255, 0.5);
+      transform: translateY(-1px);
+    }
+
+    .btn-search:active { transform: translateY(0); }
+
+    /* ── FOOTER ── */
+    .footer-section {
+      background: #f8f9fa;
+      border-top: 1px solid #e9ecef;
+      padding: 36px 20px 0;
+    }
+
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 30px;
+      padding-bottom: 30px;
+    }
+
+    .footer-col h6 {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-dark);
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      margin-bottom: 16px;
+    }
+
+    .payment-logo img {
+      height: 36px;
+      object-fit: contain;
+    }
+
+    .social-icons {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .social-icons a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      font-size: 16px;
+      color: #fff;
+      transition: transform 0.2s, opacity 0.2s;
+    }
+
+    .social-icons a:hover { transform: scale(1.12); opacity: 0.9; }
+
+    .social-fb  { background: #3b5998; }
+    .social-yt  { background: #ff0000; }
+    .social-gp  { background: #dd4b39; }
+    .social-ig  { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285aeb 90%); }
+    .social-tw  { background: #1da1f2; }
+
+    .copyright-bar {
+      background: #f1f3f5;
+      border-top: 1px solid #e9ecef;
+      text-align: center;
+      padding: 14px 20px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    @media (max-width: 900px) {
+      .sidebar-placeholder { display: none; }
+      .content-card { max-width: 100%; }
+    }
+
+    @media (max-width: 480px) {
+      .search-form { display: none; }
+      .content-card { padding: 24px 18px; }
+      .captcha-row { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══ NAVBAR ══ -->
+  <div class="navbar-wrapper">
+    <nav class="top-menu">
+      <div class="nav-container">
+        <a class="navbar-brand" href="index.html">
+          <img
+            src="http://training.oep.gov.bd/uploadfiles/4Z0Zwp08PK5yC1i2y3w7Iolq7ezoPmcaVYJFVJSm.png"
+            alt="BMET Logo"
+            onerror="this.style.display='none'"
+          />
+          <strong>BMET LMS</strong>
+        </a>
+
+        <div class="search-form">
+          <i class="fas fa-search"></i>
+          <input type="text" placeholder="Search...." />
+        </div>
+
+        <div class="nav-right">
+          <div class="dropdown">
+            <button class="dropdown-toggle" type="button">
+              Download <i class="fas fa-chevron-down" style="font-size:11px;"></i>
+            </button>
+            <div class="dropdown-menu">
+              <a href="pdo-certificate.html">Download Certificate</a>
+              <a href="pdo-enrollment-card.html" class="active">Download Enrollment Card</a>
+            </div>
+          </div>
+
+          <select class="lang-select" aria-label="Language">
+            <option value="en">English</option>
+            <option value="bn">বাংলা</option>
+          </select>
+
+          <a href="index.html"><button class="btn-login-nav" type="button">LOGIN</button></a>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <!-- ══ MAIN CONTENT ══ -->
+  <div class="page-body">
+    <div class="page-container">
+      <div class="sidebar-placeholder"></div>
+
+      <div class="content-card">
+        <h6 class="page-instruction">
+          Please enter your &quot;passport / NID&quot; number and the captcha to download your Enrollment Card.
+        </h6>
+
+        <!-- Alert box -->
+        <div id="searchMsg" style="display:none;margin-bottom:16px;padding:10px 14px;border-radius:0.5rem;font-size:13px;font-weight:600;"></div>
+
+        <form id="searchForm" action="#" method="post" novalidate>
+
+          <!-- Passport Number -->
+          <div class="form-group">
+            <label class="form-label" for="passport">
+              Passport Number <span class="required">*</span>
+            </label>
+            <input
+              class="form-control"
+              type="text"
+              id="passport"
+              name="passport"
+              autocomplete="off"
+              required
+            />
+          </div>
+
+          <!-- Captcha -->
+          <div class="form-group">
+            <label class="form-label">Captcha</label>
+            <div class="captcha-row">
+              <div class="captcha-img-box">
+                <div class="captcha-image">
+                  <canvas id="captchaCanvas" width="118" height="42"></canvas>
+                </div>
+                <button class="captcha-refresh" type="button" onclick="generateCaptcha()" title="Refresh captcha" aria-label="Refresh captcha">
+                  <i class="fas fa-sync-alt"></i>
+                </button>
+              </div>
+              <input
+                class="form-control captcha-input"
+                type="text"
+                id="captchaInput"
+                name="captcha"
+                placeholder="Enter Captcha"
+                autocomplete="off"
+              />
+            </div>
+          </div>
+
+          <!-- Search -->
+          <button class="btn-search" type="submit">SEARCH</button>
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ FOOTER ══ -->
+  <div class="footer-section">
+    <div class="footer-inner">
+      <div class="footer-col">
+        <h6>Payment Methods</h6>
+        <div class="payment-logo">
+          <img
+            src="https://www.sonalipay.co.uk/assets/img/home/logo_footer.png"
+            alt="Sonali Pay"
+            onerror="this.outerHTML='<span style=\'font-size:13px;color:#67748e;\'>Sonali Pay</span>'"
+          />
+        </div>
+      </div>
+      <div class="footer-col">
+        <h6>Follow Us</h6>
+        <div class="social-icons">
+          <a href="#" class="social-fb" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="social-yt" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+          <a href="#" class="social-gp" aria-label="Google Plus"><i class="fab fa-google-plus-g"></i></a>
+          <a href="#" class="social-ig" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="social-tw" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="copyright-bar">
+    <p>Copyright &copy; 2026 BMET LMS</p>
+  </div>
+
+  <script>
+    let captchaText = '';
+
+    function randomChar() {
+      const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789';
+      return chars[Math.floor(Math.random() * chars.length)];
+    }
+
+    function generateCaptcha() {
+      const canvas = document.getElementById('captchaCanvas');
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width, h = canvas.height;
+
+      captchaText = Array.from({ length: 5 }, randomChar).join('');
+
+      ctx.fillStyle = '#eef3ff';
+      ctx.fillRect(0, 0, w, h);
+
+      for (let i = 0; i < 6; i++) {
+        ctx.strokeStyle = `hsl(${Math.random()*360},60%,65%)`;
+        ctx.lineWidth = 1.2;
+        ctx.beginPath();
+        ctx.moveTo(Math.random() * w, Math.random() * h);
+        ctx.lineTo(Math.random() * w, Math.random() * h);
+        ctx.stroke();
+      }
+
+      for (let i = 0; i < 40; i++) {
+        ctx.fillStyle = `hsl(${Math.random()*360},50%,60%)`;
+        ctx.beginPath();
+        ctx.arc(Math.random() * w, Math.random() * h, 1, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      const colors = ['#e74c3c','#2980b9','#27ae60','#8e44ad','#f39c12','#16a085'];
+      ctx.textBaseline = 'middle';
+      const charWidth = w / (captchaText.length + 1);
+      captchaText.split('').forEach((ch, i) => {
+        ctx.save();
+        ctx.font = `bold ${18 + Math.random() * 6}px 'Lato', Arial`;
+        ctx.fillStyle = colors[Math.floor(Math.random() * colors.length)];
+        const x = charWidth * (i + 0.8);
+        const y = h / 2 + (Math.random() - 0.5) * 8;
+        ctx.translate(x, y);
+        ctx.rotate((Math.random() - 0.5) * 0.4);
+        ctx.fillText(ch, 0, 0);
+        ctx.restore();
+      });
+    }
+
+    generateCaptcha();
+
+    // ── Mock database ──
+    const MOCK_DB = [
+      { passport: 'A16048648', ec: 'SA-I-2025-60447722' },
+      { passport: 'A09756609', ec: 'SA-I-2026-09756609' },
+         { passport: 'AA09890022', ec: 'MD-I-2026-A09890022' },
+                 { passport: 'AA09890023', ec: 'MD-I-2026-A09890023' }
+
+    ];
+
+    function showMsg(text, isError) {
+      const el = document.getElementById('searchMsg');
+      el.textContent = text;
+      el.style.display = 'block';
+      el.style.background = isError ? '#fff5f5' : '#f0fff4';
+      el.style.color      = isError ? '#c0392b' : '#155724';
+      el.style.border     = isError ? '1px solid #f5c6cb' : '1px solid #c3e6cb';
+    }
+
+    document.getElementById('searchForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const passport = document.getElementById('passport').value.trim();
+      const captcha  = document.getElementById('captchaInput').value.trim();
+
+      if (!passport) { showMsg('Please enter your Passport / NID number.', true); return; }
+      if (!captcha)  { showMsg('Please enter the captcha code.', true); return; }
+
+      const match = MOCK_DB.find(r => r.passport.toUpperCase() === passport.toUpperCase());
+      if (match) {
+        window.location.href = 'ec-card/verify/' + match.ec + '.html';
+      } else {
+        showMsg('No record found for the provided Passport / NID number.', true);
+        generateCaptcha();
+        document.getElementById('captchaInput').value = '';
+      }
+    });
+  </script>
+</body>
+</html>

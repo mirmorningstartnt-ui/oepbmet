@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BMET LMS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --theme-gradient: linear-gradient(310deg, #2152ff 0%, #21d4fd 100%);
+      --theme-blue: #2152ff;
+      --theme-cyan: #21d4fd;
+      --border-color: #d2d6da;
+      --shadow-focus: 0 0 0 3px rgba(142, 199, 255, 0.45);
+      --text-muted: #67748e;
+      --text-dark: #344767;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'Open Sans', 'Lato', sans-serif;
+      font-size: 14px;
+      color: var(--text-dark);
+      background: #fff;
+    }
+
+    a { text-decoration: none; color: inherit; }
+
+    /* ── NAVBAR ── */
+    .navbar-wrapper {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    nav.top-menu {
+      background: rgba(255,255,255,0.88);
+      backdrop-filter: saturate(180%) blur(20px);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      box-shadow: 0 2px 12px 0 rgba(0,0,0,0.1);
+      padding: 10px 0;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .navbar-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 17px;
+      color: var(--text-dark);
+      white-space: nowrap;
+    }
+
+    .navbar-brand img {
+      width: 42px;
+      height: 42px;
+      object-fit: contain;
+    }
+
+    .navbar-brand strong {
+      background: var(--theme-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Search */
+    .search-form {
+      display: flex;
+      align-items: center;
+      background: #f8f9fa;
+      border: 1px solid var(--border-color);
+      border-radius: 0.5rem;
+      padding: 6px 14px;
+      gap: 8px;
+      flex: 0 1 260px;
+    }
+
+    .search-form i { color: var(--text-muted); font-size: 13px; }
+
+    .search-form input {
+      border: none;
+      background: transparent;
+      outline: none;
+      font-size: 13px;
+      color: var(--text-dark);
+      width: 100%;
+    }
+
+    .search-form input::placeholder { color: #adb5bd; }
+
+    /* Nav right items */
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* Download dropdown */
+    .dropdown { position: relative; }
+
+    .dropdown-toggle {
+      background: transparent;
+      border: 1px solid var(--border-color);
+      border-radius: 0.5rem;
+      padding: 7px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-dark);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: inherit;
+    }
+
+    .dropdown-toggle:hover { border-color: #adb5bd; }
+
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      background: #fff;
+      border: 1px solid var(--border-color);
+      border-radius: 0.5rem;
+      min-width: 200px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+      z-index: 999;
+      overflow: hidden;
+    }
+
+    .dropdown:hover .dropdown-menu,
+    .dropdown-toggle:focus + .dropdown-menu { display: block; }
+
+    .dropdown-menu a {
+      display: block;
+      padding: 9px 16px;
+      font-size: 13px;
+      color: var(--text-dark);
+      transition: background 0.15s;
+    }
+
+    .dropdown-menu a:hover { background: #f8f9fa; }
+
+    /* Language select */
+    .lang-select {
+      border: 1px solid var(--border-color);
+      border-radius: 0.5rem;
+      padding: 7px 10px;
+      font-size: 13px;
+      color: var(--text-dark);
+      background: #fff;
+      cursor: pointer;
+      font-family: inherit;
+      outline: none;
+    }
+
+    /* Login button */
+    .btn-login-nav {
+      background: var(--theme-gradient);
+      color: #fff;
+      border: none;
+      border-radius: 0.5rem;
+      padding: 8px 20px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      letter-spacing: 0.5px;
+      font-family: inherit;
+      box-shadow: 0 3px 12px rgba(33, 82, 255, 0.35);
+      transition: box-shadow 0.2s, transform 0.1s;
+    }
+
+    .btn-login-nav:hover {
+      box-shadow: 0 5px 18px rgba(33, 82, 255, 0.45);
+      transform: translateY(-1px);
+    }
+
+    /* ── MAIN CONTENT ── */
+    .page-body {
+      min-height: calc(100vh - 64px - 160px);
+      display: flex;
+      align-items: flex-start;
+      padding: 60px 20px 60px 20px;
+    }
+
+    .login-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .login-box {
+      max-width: 420px;
+      padding: 10px 0;
+    }
+
+    .login-heading {
+      font-size: 28px;
+      font-weight: 700;
+      background: var(--theme-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 8px;
+    }
+
+    .login-subtext {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 30px;
+    }
+
+    /* Form */
+    .form-group { margin-bottom: 20px; }
+
+    .form-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 6px;
+    }
+
+    .form-label span.required { color: #ea0606; }
+
+    .form-control {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid var(--border-color);
+      border-radius: 0.5rem;
+      font-size: 14px;
+      font-family: inherit;
+      color: var(--text-dark);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      background: #fff;
+    }
+
+    .form-control:focus {
+      border-color: #8ec7ff;
+      box-shadow: var(--shadow-focus);
+    }
+
+    /* Remember me row */
+    .remember-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 22px;
+    }
+
+    .remember-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Toggle switch */
+    .toggle-switch {
+      position: relative;
+      width: 42px;
+      height: 22px;
+      flex-shrink: 0;
+    }
+
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+      position: absolute;
+    }
+
+    .toggle-slider {
+      position: absolute;
+      inset: 0;
+      background: #d2d6da;
+      border-radius: 34px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .toggle-slider::before {
+      content: '';
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      left: 3px;
+      top: 3px;
+      background: #fff;
+      border-radius: 50%;
+      transition: transform 0.2s;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+    }
+
+    .toggle-switch input:checked + .toggle-slider {
+      background: var(--theme-gradient);
+      background: #2152ff;
+    }
+
+    .toggle-switch input:checked + .toggle-slider::before {
+      transform: translateX(20px);
+    }
+
+    .remember-label {
+      font-size: 13px;
+      color: var(--text-muted);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .forgot-link {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--theme-blue);
+      transition: color 0.15s;
+    }
+
+    .forgot-link:hover { color: #1741cc; text-decoration: underline; }
+
+    /* Login submit button */
+    .btn-login {
+      width: 100%;
+      padding: 12px;
+      background: var(--theme-gradient);
+      color: #fff;
+      border: none;
+      border-radius: 0.5rem;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+      font-family: inherit;
+      box-shadow: 0 4px 16px rgba(33, 82, 255, 0.4);
+      transition: box-shadow 0.2s, transform 0.1s;
+      margin-bottom: 20px;
+    }
+
+    .btn-login:hover {
+      box-shadow: 0 6px 22px rgba(33, 82, 255, 0.5);
+      transform: translateY(-1px);
+    }
+
+    .btn-login:active { transform: translateY(0); }
+
+    .register-text {
+      font-size: 14px;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    .register-link {
+      color: var(--theme-blue);
+      font-weight: 600;
+      transition: color 0.15s;
+    }
+
+    .register-link:hover { color: #1741cc; text-decoration: underline; }
+
+    /* ── FOOTER SECTION ── */
+    .footer-section {
+      background: #f8f9fa;
+      border-top: 1px solid #e9ecef;
+      padding: 36px 20px 0;
+    }
+
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 30px;
+      padding-bottom: 30px;
+    }
+
+    .footer-col h6 {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-dark);
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      margin-bottom: 16px;
+    }
+
+    .payment-logo img {
+      height: 36px;
+      object-fit: contain;
+      filter: grayscale(20%);
+    }
+
+    .social-icons {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .social-icons a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      font-size: 16px;
+      transition: transform 0.2s, opacity 0.2s;
+      color: #fff;
+    }
+
+    .social-icons a:hover { transform: scale(1.12); opacity: 0.9; }
+
+    .social-fb   { background: #3b5998; }
+    .social-yt   { background: #ff0000; }
+    .social-gp   { background: #dd4b39; }
+    .social-ig   { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285aeb 90%); }
+    .social-tw   { background: #1da1f2; }
+
+    /* Copyright bar */
+    .copyright-bar {
+      background: #f1f3f5;
+      border-top: 1px solid #e9ecef;
+      text-align: center;
+      padding: 14px 20px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .nav-container { gap: 10px; }
+      .search-form { flex: 0 1 180px; }
+      .page-body { padding: 40px 16px; }
+      .login-heading { font-size: 22px; }
+      .footer-inner { flex-direction: column; }
+    }
+
+    @media (max-width: 480px) {
+      .search-form { display: none; }
+      .nav-right { gap: 8px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══ NAVBAR ══ -->
+  <div class="navbar-wrapper">
+    <nav class="top-menu">
+      <div class="nav-container">
+
+        <!-- Brand -->
+        <a class="navbar-brand" href="#">
+          <img
+            src="http://training.oep.gov.bd/uploadfiles/4Z0Zwp08PK5yC1i2y3w7Iolq7ezoPmcaVYJFVJSm.png"
+            alt="BMET Logo"
+            onerror="this.style.display='none'"
+          />
+          <strong>BMET LMS</strong>
+        </a>
+
+        <!-- Search -->
+        <div class="search-form">
+          <i class="fas fa-search"></i>
+          <input type="text" placeholder="Search...." />
+        </div>
+
+        <!-- Right side -->
+        <div class="nav-right">
+
+          <!-- Download dropdown -->
+          <div class="dropdown">
+            <button class="dropdown-toggle" type="button">
+              Download <i class="fas fa-chevron-down" style="font-size:11px;"></i>
+            </button>
+            <div class="dropdown-menu">
+              <a href="pdo-certificate.html">Download Certificate</a>
+              <a href="pdo-enrollment-card.html">Download Enrollment Card</a>
+            </div>
+          </div>
+
+          <!-- Language -->
+          <select class="lang-select" aria-label="Language">
+            <option value="en">English</option>
+            <option value="bn">বাংলা</option>
+          </select>
+
+          <!-- Login button -->
+          <button class="btn-login-nav" type="button">LOGIN</button>
+
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <!-- ══ MAIN CONTENT ══ -->
+  <div class="page-body">
+    <div class="login-container">
+      <div class="login-box">
+
+        <h4 class="login-heading">Welcome to BMET</h4>
+        <p class="login-subtext">Enter your email and password to login</p>
+
+        <form action="#" method="post" novalidate>
+
+          <!-- Email -->
+          <div class="form-group">
+            <label class="form-label" for="email">
+              Email <span class="required">*</span>
+            </label>
+            <input
+              class="form-control"
+              type="email"
+              id="email"
+              name="email"
+              placeholder=""
+              autocomplete="email"
+              required
+            />
+          </div>
+
+          <!-- Password -->
+          <div class="form-group">
+            <label class="form-label" for="password">
+              Password <span class="required">*</span>
+            </label>
+            <input
+              class="form-control"
+              type="password"
+              id="password"
+              name="password"
+              placeholder=""
+              autocomplete="current-password"
+              required
+            />
+          </div>
+
+          <!-- Remember me + Forgot password -->
+          <div class="remember-row">
+            <div class="remember-left">
+              <label class="toggle-switch" for="remember">
+                <input type="checkbox" id="remember" name="remember" />
+                <span class="toggle-slider"></span>
+              </label>
+              <label class="remember-label" for="remember">Remember me</label>
+            </div>
+            <a class="forgot-link" href="#">Forgot Password</a>
+          </div>
+
+          <!-- Submit -->
+          <button class="btn-login" type="submit">LOGIN</button>
+
+        </form>
+
+        <p class="register-text">
+          Don't have an account?
+          <a class="register-link" href="https://employee.oep.gov.bd/employee/registration" target="_blank">Register Now</a>
+        </p>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ FOOTER SECTION ══ -->
+  <div class="footer-section">
+    <div class="footer-inner">
+
+      <!-- Payment Methods -->
+      <div class="footer-col">
+        <h6>Payment Methods</h6>
+        <div class="payment-logo">
+          <img
+            src="https://www.sonalipay.co.uk/assets/img/home/logo_footer.png"
+            alt="Sonali Pay"
+            onerror="this.outerHTML='<span style=\'font-size:13px;color:#67748e;\'>Sonali Pay</span>'"
+          />
+        </div>
+      </div>
+
+      <!-- Follow Us -->
+      <div class="footer-col">
+        <h6>Follow Us</h6>
+        <div class="social-icons">
+          <a href="#" class="social-fb" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="social-yt" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+          <a href="#" class="social-gp" aria-label="Google Plus"><i class="fab fa-google-plus-g"></i></a>
+          <a href="#" class="social-ig" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="social-tw" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══ COPYRIGHT ══ -->
+  <div class="copyright-bar">
+    <p>Copyright &copy; 2026 BMET LMS</p>
+  </div>
+
+</body>
+</html>
