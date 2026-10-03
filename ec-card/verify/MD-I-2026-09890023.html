@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Emigration Clearance — MD-I-2026-09890023</title>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&family=Noto+Serif+Bengali:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 13px;
+      background: #efefef;
+      color: #333;
+    }
+
+    a { text-decoration: none; color: inherit; }
+
+    /* ── WRAPPER ── */
+    #wrap {
+      max-width: 820px;
+      margin: 24px auto 40px;
+    }
+
+    /* ── TOP HEADER ── */
+    #top {
+      background-image: url('https://raims.oep.gov.bd/assets/images/card/card_map.png');
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+      padding: 14px 20px;
+      background-color: #fff;
+      border-radius: 6px 6px 0 0;
+      border: 1px solid #ddd;
+      border-bottom: none;
+    }
+
+    #top img { height: 54px; object-fit: contain; }
+
+    .title {
+      text-align: center;
+      font-family: 'Noto Serif Bengali', serif;
+      font-weight: 700;
+      line-height: 1.6;
+    }
+
+    .title .bengali-gov  { color: green;  font-size: 15px; }
+    .title .bengali-dept { color: #8b008b; font-size: 14px; }
+
+    /* ── EC MAIN CARD ── */
+    #agency-board {
+      background: #fff;
+      border: 1px solid #ddd;
+      padding: 20px 24px 24px;
+    }
+
+    .ec-title {
+      text-align: center;
+      margin-bottom: 18px;
+    }
+
+    .ec-title h5 {
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    .ec-title .bn { font-family: 'Noto Serif Bengali', serif; color: #555; font-weight: 600; }
+    .ec-title .en { font-weight: 700; color: #222; }
+
+    /* Person info block */
+    .person-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 18px;
+      gap: 6px;
+    }
+
+    .person-photo {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #ccc;
+      background: #e0e0e0;
+    }
+
+    .person-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: #222;
+      margin-top: 4px;
+    }
+
+    .person-ec {
+      font-size: 13px;
+      color: #444;
+      text-align: center;
+      line-height: 1.7;
+    }
+
+    .person-ec strong { color: #111; }
+
+    .card-deco {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .card-deco img { height: 18px; }
+
+    /* Details table */
+    .table-sm {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .table-sm th,
+    .table-sm td {
+      border: 1px solid #dee2e6;
+      padding: 6px 10px;
+      vertical-align: middle;
+    }
+
+    .table-sm th {
+      background: #f8f9fa;
+      font-weight: 600;
+      color: #555;
+      width: 42%;
+    }
+
+    .table-sm td {
+      font-weight: 700;
+      color: #222;
+    }
+
+    /* ── SECTION BLOCKS ── */
+    .section-block {
+      margin-top: 18px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 16px;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-bottom: none;
+      border-radius: 4px 4px 0 0;
+    }
+
+    .section-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #28a745;
+    }
+
+    .section-seals {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .section-seals img {
+      height: 38px;
+      width: 38px;
+      object-fit: contain;
+      border-radius: 50%;
+    }
+
+    .section-body {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 0 0 4px 4px;
+      padding: 16px 20px;
+    }
+
+    /* ── PRINT BUTTON ── */
+    .print-bar {
+      text-align: center;
+      margin-top: 24px;
+    }
+
+    .btn-print {
+      background: #28a745;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 10px 28px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.2s;
+    }
+
+    .btn-print:hover { background: #218838; }
+
+    .btn-back {
+      background: #6c757d;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 10px 22px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      margin-right: 10px;
+      transition: background 0.2s;
+    }
+
+    .btn-back:hover { background: #5a6268; }
+
+    @media print {
+      body { background: #fff; }
+      .print-bar { display: none; }
+      #wrap { margin: 0; max-width: 100%; }
+    }
+
+    @media (max-width: 600px) {
+      #wrap { margin: 10px; }
+      #top { flex-direction: column; gap: 10px; }
+      .section-body { padding: 10px 12px; }
+      #agency-board { padding: 14px 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="wrap">
+
+  <!-- ══ TOP HEADER ══ -->
+  <div id="top" class="text-center">
+    <div>
+      <img src="https://raims.oep.gov.bd/img/brand/logo.png" alt="BMET Logo" />
+    </div>
+    <div class="title">
+      <div class="bengali-gov">গণপ্রজাতন্ত্রী বাংলাদেশ সরকার</div>
+      <div class="bengali-dept">জনশক্তি কর্মসংস্থান ও প্রশিক্ষন ব্যুরো</div>
+    </div>
+    <div>
+      <img src="https://raims.oep.gov.bd/assets/images/card/govt_logo.png" alt="Bangladesh Govt Emblem" />
+    </div>
+  </div>
+
+  <!-- ══ EMIGRATION CLEARANCE CARD ══ -->
+  <div id="agency-board">
+
+    <div class="ec-title">
+      <h5>
+        <span class="bn">বহির্গমন ছাড়পত্র</span><br>
+        <span class="en">Emigration Clearance</span>
+      </h5>
+    </div>
+
+    <div class="person-block">
+      <img
+        class="person-photo"
+        src="https://i.ibb.co.com/672DqWy0/e9ccc73e-6aab-43e0-8b83-4b83bf35c255.jpg"
+        alt="NURUL AFSAR"
+        onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'110\' height=\'110\'%3E%3Crect width=\'110\' height=\'110\' fill=\'%23ccc\'/%3E%3Ctext x=\'50%25\' y=\'55%25\' dominant-baseline=\'middle\' text-anchor=\'middle\' font-size=\'40\' fill=\'%23888\'%3E👤%3C/text%3E%3C/svg%3E'"
+      />
+      <p class="person-name">NURUL AFSAR</p>
+      <p class="person-ec">
+        EC No: <strong>MD-I-2026-09890023</strong><br>
+        EC Date: <strong>01/Aug/2026</strong>
+      </p>
+      <div class="card-deco">
+        <img src="https://raims.oep.gov.bd/assets/images/card/card_line.png" alt="" />
+        <img src="https://raims.oep.gov.bd/assets/images/card/card_star.png" alt="" />
+      </div>
+    </div>
+
+    <table class="table-sm">
+      <tbody>
+        <tr><th>Birth Date</th><td>1982-03-31</td></tr>
+        <tr><th>Blood Group</th><td></td></tr>
+        <tr><th>Passport No</th><td>A09890023</td></tr>
+        <tr><th>Passport Issue Date</th><td>2026-03-04</td></tr>
+        <tr><th>Passport Expire Date</th><td>2036-03-03</td></tr>
+        <tr><th>Visa No</th><td>MD 0007862</td></tr>
+        <tr><th>Visa Issue Date</th><td>2026-07-20</td></tr>
+        <tr><th>Visa Expire Date</th><td>2026-10-05</td></tr>
+        <tr><th>Referral No</th><td>1305260000</td></tr>
+        <tr><th>Employer</th><td>Mashael Mahdi Al Bouzbdeh Company</td></tr>
+        <tr><th>Country</th><td>REPUBLICA MOLDOVA</td></tr>
+      </tbody>
+    </table>
+
+  </div>
+
+  <!-- ══ RECRUITING AGENCY ══ -->
+  <div class="section-block">
+    <div class="section-header">
+      <span class="section-title">Recruiting Agency</span>
+      <div class="section-seals">
+        <img src="https://raims.oep.gov.bd/assets/images/card/govt_logo.png" alt="BD Emblem" />
+        <img src="https://raims.oep.gov.bd/img/brand/logo.png" alt="BMET Logo" />
+      </div>
+    </div>
+    <div class="section-body">
+      <table class="table-sm">
+        <tbody>
+          <tr><th>Name</th><td>M/S K S OVERSEAS</td></tr>
+          <tr><th>License No</th><td>RL1422</td></tr>
+          <tr><th>Phone</th><td>01814085188</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══ BMET REGISTRATION ══ -->
+  <div class="section-block">
+    <div class="section-header">
+      <span class="section-title">BMET Registration</span>
+      <div class="section-seals">
+        <img src="https://raims.oep.gov.bd/assets/images/card/govt_logo.png" alt="BD Emblem" />
+        <img src="https://raims.oep.gov.bd/img/brand/logo.png" alt="BMET Logo" />
+      </div>
+    </div>
+    <div class="section-body">
+      <table class="table-sm">
+        <tbody>
+          <tr><th>BMET No</th><td>CPM20268429648G</td></tr>
+          <tr><th>Name</th><td>NURUL AFSAR</td></tr>
+          <tr><th>Birth Date</th><td>1982-03-31</td></tr>
+          <tr><th>Gender</th><td>Male</td></tr>
+          <tr><th>NID</th><td>3011476920318</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══ PASSPORTS ══ -->
+  <div class="section-block">
+    <div class="section-header">
+      <span class="section-title">Passports</span>
+      <div class="section-seals">
+        <img src="https://raims.oep.gov.bd/assets/images/card/govt_logo.png" alt="BD Emblem" />
+        <img src="https://raims.oep.gov.bd/img/brand/logo.png" alt="BMET Logo" />
+      </div>
+    </div>
+    <div class="section-body">
+      <table class="table-sm">
+        <tbody>
+          <tr><th>Name</th><td>NURUL AFSAR</td></tr>
+          <tr><th>Passport No 1</th><td>A09890023</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══ PERMANENT ADDRESS ══ -->
+  <div class="section-block">
+    <div class="section-header">
+      <span class="section-title">Permanent Address</span>
+      <div class="section-seals">
+        <img src="https://raims.oep.gov.bd/assets/images/card/govt_logo.png" alt="BD Emblem" />
+        <img src="https://raims.oep.gov.bd/img/brand/logo.png" alt="BMET Logo" />
+      </div>
+    </div>
+    <div class="section-body">
+      <table class="table-sm">
+        <tbody>
+          <tr><th>House/Vill/Road</th><td>WEST PATHAN GOR</td></tr>
+          <tr><th>Post Office</th><td>Unknown - Unknown</td></tr>
+          <tr><th>Police Station</th><td>CHHAGALNAIYA</td></tr>
+          <tr><th>Upazila</th><td>PATHAN NAGAR</td></tr>
+          <tr><th>District</th><td>FENI</td></tr>
+          <tr><th>Division</th><td>CHATTOGRAM</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══ EMERGENCY CONTACT ══ -->
+  <div class="section-block">
+    <div class="section-header">
+      <span class="section-title">Emergency Contact</span>
+      <div class="section-seals">
+        <img src="https://raims.oep.gov.bd/assets/images/card/govt_logo.png" alt="BD Emblem" />
+        <img src="https://raims.oep.gov.bd/img/brand/logo.png" alt="BMET Logo" />
+      </div>
+    </div>
+    <div class="section-body">
+      <table class="table-sm">
+        <tbody>
+          <tr><th>Name</th><td></td></tr>
+          <tr><th>Relation</th><td></td></tr>
+          <tr><th>Mobile</th><td></td></tr>
+          <tr><th>Address</th><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══ ACTIONS ══ -->
+  <div class="print-bar">
+    <button class="btn-back" type="button" onclick="history.back()">&#8592; Back</button>
+    <button class="btn-print" type="button" onclick="window.print()">&#128438; Print</button>
+  </div>
+
+</div><!-- /#wrap -->
+
+</body>
+  </html>
