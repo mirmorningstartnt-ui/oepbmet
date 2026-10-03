@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Emigration Clearance — {{EC}}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&family=Noto+Serif+Bengali:wght@400;700&display=swap" rel="stylesheet" />
+  {{STYLE}}
+</head>
+<body>
+
+<div id="wrap">
+
+  <!-- ══ TOP HEADER ══ -->
+  <div id="top" class="text-center">
+    <div>
+      <img src="https://raims.oep.gov.bd/img/brand/logo.png" alt="BMET Logo" />
+    </div>
+    <div class="title">
+      <div class="bengali-gov">গণপ্রজাতন্ত্রী বাংলাদেশ সরকার</div>
+      <div class="bengali-dept">জনশক্তি কর্মসংস্থান ও প্রশিক্ষন ব্যুরো</div>
+    </div>
+    <div>
+      <img src="https://raims.oep.gov.bd/assets/images/card/govt_logo.png" alt="Bangladesh Govt Emblem" />
+    </div>
+  </div>
+
+  <!-- ══ EMIGRATION CLEARANCE CARD ══ -->
+  <div id="agency-board">
+
+    <div class="ec-title">
+      <h5>
+        <span class="bn">বহির্গমন ছাড়পত্র</span><br>
+        <span class="en">Emigration Clearance</span>
+      </h5>
+    </div>
+
+    <div class="person-block">
+      <img
+        class="person-photo"
+        src="{{PHOTO}}"
+        alt="{{NAME}}"
+        onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'110\' height=\'110\'%3E%3Crect width=\'110\' height=\'110\' fill=\'%23ccc\'/%3E%3Ctext x=\'50%25\' y=\'55%25\' dominant-baseline=\'middle\' text-anchor=\'middle\' font-size=\'40\' fill=\'%23888\'%3E👤%3C/text%3E%3C/svg%3E'"
+      />
+      <p class="person-name">{{NAME}}</p>
+      <p class="person-ec">
+        EC No: <strong>{{EC}}</strong><br>
+        EC Date: <strong>{{EC_DATE}}</strong>
+      </p>
+      <div class="card-deco">
+        <img src="https://raims.oep.gov.bd/assets/images/card/card_line.png" alt="" />
+        <img src="https://raims.oep.gov.bd/assets/images/card/card_star.png" alt="" />
+      </div>
+    </div>
+
+    <table class="table-sm">
+      <tbody>
+        <tr><th>Birth Date</th><td>{{BIRTH}}</td></tr>
+        <tr><th>Blood Group</th><td>{{BLOOD}}</td></tr>
+        <tr><th>Passport No</th><td>{{PASSPORT}}</td></tr>
+        <tr><th>Passport Issue Date</th><td>{{P_ISSUE}}</td></tr>
+        <tr><th>Passport Expire Date</th><td>{{P_EXPIRE}}</td></tr>
+        <tr><th>Visa No</th><td>{{VISA}}</td></tr>
+        <tr><th>Visa Issue Date</th><td>{{V_ISSUE}}</td></tr>
+        <tr><th>Visa Expire Date</th><td>{{V_EXPIRE}}</td></tr>
+        <tr><th>Referral No</th><td>{{REFERRAL}}</td></tr>
+        <tr><th>Employer</th><td>{{EMPLOYER}}</td></tr>
+        <tr><th>Country</th><td>{{COUNTRY}}</td></tr>
+      </tbody>
+    </table>
+
+  </div>
+
+  <!-- ══ RECRUITING AGENCY ══ -->
+  <div class="section-block">
+    <div class="section-header">
+      <span class="section-title">Recruiting Agency</span>
+      <div class="section-seals">
+        <img src="https://raims.oep.gov.bd/assets/images/card/govt_logo.png" alt="BD Emblem" />
+        <img src="https://raims.oep.gov.bd/img/brand/logo.png" alt="BMET Logo" />
+      </div>
+    </div>
+    <div class="section-body">
+      <table class="table-sm">
+        <tbody>
+          <tr><th>Name</th><td>{{AG_NAME}}</td></tr>
+          <tr><th>License No</th><td>{{AG_LIC}}</td></tr>
+          <tr><th>Phone</th><td>{{AG_PHONE}}</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══ BMET REGISTRATION ══ -->
+  <div class="section-block">
+    <div class="section-header">
+      <span class="section-title">BMET Registration</span>
+      <div class="section-seals">
+        <img src="https://raims.oep.gov.bd/assets/images/card/govt_logo.png" alt="BD Emblem" />
+        <img src="https://raims.oep.gov.bd/img/brand/logo.png" alt="BMET Logo" />
+      </div>
+    </div>
+    <div class="section-body">
+      <table class="table-sm">
+        <tbody>
+          <tr><th>BMET No</th><td>{{BMET}}</td></tr>
+          <tr><th>Name</th><td>{{NAME}}</td></tr>
+          <tr><th>Birth Date</th><td>{{BIRTH}}</td></tr>
+          <tr><th>Gender</th><td>{{GENDER}}</td></tr>
+          <tr><th>NID</th><td>{{NID}}</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══ PASSPORTS ══ -->
+  <div class="section-block">
+    <div class="section-header">
+      <span class="section-title">Passports</span>
+      <div class="section-seals">
+        <img src="https://raims.oep.gov.bd/assets/images/card/govt_logo.png" alt="BD Emblem" />
+        <img src="https://raims.oep.gov.bd/img/brand/logo.png" alt="BMET Logo" />
+      </div>
+    </div>
+    <div class="section-body">
+      <table class="table-sm">
+        <tbody>
+          <tr><th>Name</th><td>{{NAME}}</td></tr>
+          <tr><th>Passport No 1</th><td>{{PASSPORT}}</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══ PERMANENT ADDRESS ══ -->
+  <div class="section-block">
+    <div class="section-header">
+      <span class="section-title">Permanent Address</span>
+      <div class="section-seals">
+        <img src="https://raims.oep.gov.bd/assets/images/card/govt_logo.png" alt="BD Emblem" />
+        <img src="https://raims.oep.gov.bd/img/brand/logo.png" alt="BMET Logo" />
+      </div>
+    </div>
+    <div class="section-body">
+      <table class="table-sm">
+        <tbody>
+          <tr><th>House/Vill/Road</th><td>{{A_HOUSE}}</td></tr>
+          <tr><th>Post Office</th><td>{{A_POST}}</td></tr>
+          <tr><th>Police Station</th><td>{{A_PS}}</td></tr>
+          <tr><th>Upazila</th><td>{{A_UPA}}</td></tr>
+          <tr><th>District</th><td>{{A_DIST}}</td></tr>
+          <tr><th>Division</th><td>{{A_DIV}}</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══ EMERGENCY CONTACT ══ -->
+  <div class="section-block">
+    <div class="section-header">
+      <span class="section-title">Emergency Contact</span>
+      <div class="section-seals">
+        <img src="https://raims.oep.gov.bd/assets/images/card/govt_logo.png" alt="BD Emblem" />
+        <img src="https://raims.oep.gov.bd/img/brand/logo.png" alt="BMET Logo" />
+      </div>
+    </div>
+    <div class="section-body">
+      <table class="table-sm">
+        <tbody>
+          <tr><th>Name</th><td></td></tr>
+          <tr><th>Relation</th><td></td></tr>
+          <tr><th>Mobile</th><td></td></tr>
+          <tr><th>Address</th><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══ ACTIONS ══ -->
+  <div class="print-bar">
+    <button class="btn-back" type="button" onclick="history.back()">&#8592; Back</button>
+    <a class="btn-back btn-card" style="display:inline-block;text-align:center;" href="{{PDF}}">&#128196; Enrollment Card</a>
+    <button class="btn-print" type="button" onclick="window.print()">&#128438; Print</button>
+  </div>
+
+</div><!-- /#wrap -->
+
+</body>
+  </html>

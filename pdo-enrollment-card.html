@@ -454,6 +454,10 @@
         <h6 class="page-instruction">
           Please enter your &quot;passport / NID&quot; number and the captcha to download your Enrollment Card.
         </h6>
+        <p style="font-size:13px;color:#67748e;margin:-18px 0 20px;">
+          Looking for the clearance certificate instead?
+          <a href="pdo-certificate.html" style="color:#2152ff;font-weight:600;">Verify / download certificate</a>
+        </p>
 
         <!-- Alert box -->
         <div id="searchMsg" style="display:none;margin-bottom:16px;padding:10px 14px;border-radius:0.5rem;font-size:13px;font-weight:600;"></div>
@@ -588,13 +592,9 @@
 
     generateCaptcha();
 
-    // ── Mock database ──
+    // ── Mock database (new cards are appended here automatically by the admin dashboard) ──
     const MOCK_DB = [
-      { passport: 'A16048648', ec: 'SA-I-2025-60447722' },
-      { passport: 'A09756609', ec: 'SA-I-2026-09756609' },
-         { passport: 'AA09890022', ec: 'MD-I-2026-A09890022' },
-                 { passport: 'AA09890023', ec: 'MD-I-2026-A09890023' }
-
+      { passport: 'A09890023', ec: 'MD-I-2026-09890023' }
     ];
 
     function showMsg(text, isError) {
@@ -606,17 +606,47 @@
       el.style.border     = isError ? '1px solid #f5c6cb' : '1px solid #c3e6cb';
     }
 
-    document.getElementById('searchForm').addEventListener('submit', function(e) {
+    // Ask the PHP backend first (when deployed); fall back to the static MOCK_DB.
+    async function lookupEc(passport) {
+      try {
+        const res = await fetch('admin/api/lookup.php?passport=' + encodeURIComponent(passport), { cache: 'no-store' });
+        if (res.ok) {
+          const j = await res.json();
+          if (j && j.found && j.ec) return j.ec;
+        }
+      } catch (e) { /* static hosting – ignore */ }
+      const match = MOCK_DB.find(r => r.passport.toUpperCase() === passport.toUpperCase());
+      return match ? match.ec : null;
+    }
+
+    async function openEnrollmentCard(ec) {
+      const pdf = 'ec-card/enrollment-card/' + encodeURIComponent(ec) + '.pdf';
+      try {
+        const head = await fetch(pdf, { method: 'HEAD' });
+        if (head.ok) { window.location.href = pdf; return; }
+      } catch (e) { window.location.href = pdf; return; }
+      showMsg('No Enrollment Card PDF has been published for ' + ec + ' yet.', true);
+      generateCaptcha();
+    }
+
+    document.getElementById('searchForm').addEventListener('submit', async function(e) {
       e.preventDefault();
       const passport = document.getElementById('passport').value.trim();
       const captcha  = document.getElementById('captchaInput').value.trim();
 
       if (!passport) { showMsg('Please enter your Passport / NID number.', true); return; }
       if (!captcha)  { showMsg('Please enter the captcha code.', true); return; }
+      if (captcha.toLowerCase() !== captchaText.toLowerCase()) {
+        showMsg('The captcha code is incorrect.', true);
+        generateCaptcha();
+        document.getElementById('captchaInput').value = '';
+        return;
+      }
 
-      const match = MOCK_DB.find(r => r.passport.toUpperCase() === passport.toUpperCase());
-      if (match) {
-        window.location.href = 'ec-card/verify/' + match.ec + '.html';
+      const ec = await lookupEc(passport);
+      if (ec) {
+        showMsg('Enrollment Card found: ' + ec + ' — opening the PDF…', false);
+        await openEnrollmentCard(ec);
       } else {
         showMsg('No record found for the provided Passport / NID number.', true);
         generateCaptcha();

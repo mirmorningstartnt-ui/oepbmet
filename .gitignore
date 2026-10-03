@@ -1,0 +1,14 @@
+# installer-generated configuration (contains DB credentials)
+admin/includes/config.php
+
+# local sqlite database (testing only)
+admin/data/
+
+# uploaded card photos
+ec-card/uploads/*
+
+# runtime-generated card artifacts (only the sample card is tracked)
+ec-card/verify/*
+!ec-card/verify/MD-I-2026-09890023.html
+ec-card/enrollment-card/*
+!ec-card/enrollment-card/MD-I-2026-09890023.pdf
